@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
+</head>
+<body>
+	<h1></h1>
+	<div class="col-1 mx-auto text-center">
+	     <button class="btn start btn-success">START GAME</button>
+     </div>
+
+     <div class="d-flex col-8 mx-auto mt-1 choose">
+			<div class="col-6 bg-dark py-5 choose" style="background-image: url(liam.png); background-size: 100% 100%; height: 500px;">
+					<h1 class="text-light">Лиам</h1>
+					<button class="charchoose btn btn-dark">Выбрать</button>
+			</div>
+			<div class="col-6 py-5 choose bg-dark" style="background-image: url(airy.webp); background-size: 100% 100%;">
+					<h1 class="text-light">Эйри</h1>
+					<button class="charchoose btn btn-dark">Выбрать</button>
+			</div>
+	</div>
+
+	<div class="d-flex col-8 mx-auto mt-1 game">
+			<div class="col-6 bg-dark py-5 game" style="background-size: 100% 100%; height: 500px;">
+					<h1 class="text-light names">Лиам</h1>
+					<h3 class="hps text-light">HP: 100</h3>
+					<button class="buttons btn btn-dark attack" style="background-size: 100% 100%"><h5 class="">attack<h5></button>
+			</div>
+			<div class="col-6  text-end py-5 game" style="background-size: 100% 100%; height: 500px; background-color: #9C4330;">
+					<h1 class="text-light names">Эйри</h1>
+					<h3 class="hps text-light">HP: 100</h3>
+					<button class="buttons btn btn-dark attack" style="background-size: 100% 100%"><h5 class="">attack<h5></button>
+			</div>
+	</div>
+	<div class="col-8 mx-auto bg-info text-center py-5 game">
+			<button  class="heal button btn btn-success">добавить hp случайно</button>
+	</div>
+
+
+	<script type="text/javascript">
+	let hps = document.querySelectorAll(".hps");
+	let btns = document.querySelectorAll(".buttons");
+	let nms = document.querySelectorAll(".names");
+	let heal = document.querySelector(".heal");
+	let start = document.querySelector(".start");
+	let game = document.querySelectorAll(".game");
+	let choose = document.querySelectorAll(".choose");
+     let charchoose = document.querySelectorAll(".charchoose");
+     let attack = document.querySelectorAll(".attack");
+     
+
+     for (i = game.length - 1; i >= 0; i--) {
+	   	  	game[i].style.display = "none";
+	}
+	for (i = choose.length - 1; i >= 0; i--) {
+	   	  	choose[i].style.display = "none";
+	}
+
+	   start.onclick = function(){
+	   	  for (i = choose.length - 1; i >= 0; i--) {
+	   	  	choose[i].style.display = "block";
+	   	  }
+	   	  start.style.display = "none"
+
+	   }
+
+
+        let random = function(arg){
+            let rand = Math.random() * arg + 1
+            let round = Math.round(rand)
+            return round
+        }
+		let createPlayer = function(setname,sethp) {
+				let player = {
+						name : setname,
+						hp : sethp,
+						shot : function(arg){
+							arg.hp = arg.hp - 10;
+						},
+						heal : function(){
+							if (random(1) == 1) {
+                               player1.hp = player1.hp + 10
+							}
+							if (random(1) == 2) {
+                               player2.hp = player2.hp + 10
+							}
+						}
+				}
+
+				return player;
+		}
+	   charchoose[0].onclick = function(){
+	   	  for (i = choose.length - 1; i >= 0; i--) {
+	   	  	choose[i].style.display = "none";
+	   	  }
+	   	  for (i = game.length - 1; i >= 0; i--) {
+	   	  	game[i].style.display = "block";
+	       }
+	       let player1 = createPlayer("Лиам",100)
+            let player2 = createPlayer("Эйри",100)
+            nms[0].innerHTML = player1.name;
+            nms[1].innerHTML = player2.name;
+            game[1].style.backgroundImage = "url(liam.png)"
+            game[2].style.backgroundImage = "url(airy.webp)"
+            attack[0].style.backgroundImage = "url(axe.jpg)"
+            attack[1].style.backgroundImage = "url(computer.jpg)"
+	   }
+	   charchoose[1].onclick = function(){
+	   	  for (i = choose.length - 1; i >= 0; i--) {
+	   	  	choose[i].style.display = "none";
+	   	  }
+	   	  for (i = game.length - 1; i >= 0; i--) {
+	   	  	game[i].style.display = "block";
+	       }
+	       let player1 = createPlayer("Эйри",100)
+            let player2 = createPlayer("Лиам",100)
+            nms[0].innerHTML = player1.name;
+            nms[1].innerHTML = player2.name;
+            game[2].style.backgroundImage = "url(liam.png)"
+            game[1].style.backgroundImage = "url(airy.webp)"
+            attack[1].style.backgroundImage = "url(axe.jpg)"
+            attack[0].style.backgroundImage = "url(computer.jpg)"
+	   }
+        
+        btns[0].onclick = function(){
+             player2.shot(player1);
+             hps[0].innerHTML = "HP: " + player2.hp;
+             hps[1].innerHTML = "HP: " + player1.hp;
+             if (player1.hp <= 0) {
+             	alert(player2.name + " проиграл")
+             }
+             if (player2.hp <= 0) {
+             	alert(player1.name + " проиграл")
+             }
+        }
+        btns[1].onclick = function(){
+             player1.shot(player2);
+             hps[1].innerHTML = "HP: " + player1.hp;
+             hps[0].innerHTML = "HP: " + player2.hp;
+             if (player1.hp <= 0) {
+             	alert(player2.name + " проиграл")
+             }
+             if (player2.hp <= 0) {
+             	alert(player1.name + " проиграл")
+             }
+        }
+        heal.onclick = function(){
+             player1.heal()
+             hps[1].innerHTML = "HP: " + player1.hp;
+             hps[0].innerHTML = "HP: " + player2.hp;
+        }
+	</script>
+</body>
+</html>
